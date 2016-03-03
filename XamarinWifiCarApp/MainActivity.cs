@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using Android.App;
 using Android.Content.PM;
+using Android.Media;
 using Android.Net;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Encoding = System.Text.Encoding;
 using Environment = System.Environment;
 using SocketType = System.Net.Sockets.SocketType;
 using Uri = Android.Net.Uri;
@@ -61,8 +62,15 @@ namespace XamarinWifiCarApp
             BtnRight = FindViewById<ImageButton>(Resource.Id.imageButtonRight);
             BtnStop = FindViewById<ImageButton>(Resource.Id.imageButtonStop);
 
-            Video.SetVideoURI(Uri.Parse(CameraUrl));
-            Video.SetMediaController(new MediaController(this));
+
+
+            //var uri = Android.Net.Uri.Parse("http://ia600507.us.archive.org/25/items/Cartoontheater1930sAnd1950s1/PigsInAPolka1943.mp4");
+            var uri = Android.Net.Uri.Parse("http://192.168.1.1:8080/?action=stream");
+            Video.SetVideoURI(uri);
+            Video.Visibility = ViewStates.Visible;
+            Video.Start();
+            //Video.SetVideoURI(Uri.Parse(CameraUrl));
+            //Video.SetMediaController(new MediaController(this));
 
             BtnForward.Touch += (sender, args) =>
             {
@@ -120,15 +128,18 @@ namespace XamarinWifiCarApp
             {
                 try
                 {
-                    Video.SetVideoURI(Uri.Parse(CameraUrl));
-                    Video.Start();
+                    if(args.Event.Action == MotionEventActions.Down)
+                    {
+
+                        Video.SetVideoURI(Uri.Parse(CameraUrl));
+                        Video.Start();
+                    }
                 }
                 catch (Exception ex)
                 {
                     LblMensaje.Text = ex.Message;
                 }
             };
-
             // Get our button from the layout resource,
             // and attach an event to it
             //var button = FindViewById<Button>(Resource.Id.btnAlert);
