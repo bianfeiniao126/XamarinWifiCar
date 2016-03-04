@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,9 +12,10 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
 using Java.Lang;
 using Java.Text;
+using Environment = Android.OS.Environment;
+using File = Java.IO.File;
 using String = System.String;
 
 namespace XamarinWifiCarApp.MpegViewer
@@ -37,8 +39,8 @@ namespace XamarinWifiCarApp.MpegViewer
         private static bool mRun = false;
         private static bool surfaceDone = false;
         private static Paint overlayPaint;
-        private int overlayTextColor;
-        private int overlayBackgroundColor;
+        private static Color overlayTextColor;
+        private static Color overlayBackgroundColor;
         private static int ovlPos;
         private static int dispWidth;
         private static int dispHeight;
@@ -49,7 +51,7 @@ namespace XamarinWifiCarApp.MpegViewer
         private static bool mtakePic = false;//flag for take a picture
         private static string mFileName = null;//file name to save picture
 
-        private Context context;
+        private static Context context;
 
         public MjpegView(Context context) : base(context)
         {
@@ -62,32 +64,31 @@ namespace XamarinWifiCarApp.MpegViewer
 
         private void Init(Context context)
         {
-            this.context = context;
-            //SurfaceHolder holder = getHolder();
-            //holder.addCallback(this);
-            //thread = new MjpegViewThread(holder, context);
-            //setFocusable(true);
-            //if (!resume)
-            //{
-            //    resume = true;
-            //    overlayPaint = new Paint();
-            //    overlayPaint.setTextAlign(Paint.Align.LEFT);
-            //    overlayPaint.setTextSize(12);
-            //    overlayPaint.setTypeface(Typeface.DEFAULT);
-            //    overlayTextColor = Color.WHITE;
-            //    overlayBackgroundColor = Color.BLACK;
-            //    ovlPos = MjpegView.POSITION_LOWER_RIGHT;
-            //    displayMode = MjpegView.SIZE_STANDARD;
-            //    dispWidth = getWidth();
-            //    dispHeight = getHeight();
+            MjpegView.context = context;
+            Holder.AddCallback(this);
+            thread = new MjpegViewThread(Holder, context);
+            Focusable = true;
+            if (!resume)
+            {
+                resume = true;
+                overlayPaint = new Paint();
+                overlayPaint.TextAlign = Paint.Align.Left;
+                overlayPaint.TextSize = 12;
+                overlayPaint.SetTypeface(Typeface.Default);
+                overlayTextColor = Color.White;
+                overlayBackgroundColor = Color.Black;
+                ovlPos = MjpegView.POSITION_LOWER_RIGHT;
+                displayMode = MjpegView.SIZE_STANDARD;
+                dispWidth = Width;
+                dispHeight = Height;
 
-            //    Log.Debug("MjpegView", "init successfully!");
-            //}
-            //setOverlayTextColor(Color.GREEN);
-            //DisplayMetrics dm = getResources().getDisplayMetrics();
-            //mScreenWidth = dm.widthPixels;
-            //mScreenHeight = dm.heightPixels;
-            //setKeepScreenOn(true);
+                Log.Debug("MjpegView", "init successfully!");
+            }
+            SetOverlayTextColor(Color.Green);
+            DisplayMetrics dm = Resources.DisplayMetrics;
+            mScreenWidth = dm.WidthPixels;
+            mScreenHeight = dm.HeightPixels;
+            KeepScreenOn = true;
         }
 
         public void SurfaceChanged(ISurfaceHolder holder, Format format, int width, int height)
@@ -112,10 +113,12 @@ namespace XamarinWifiCarApp.MpegViewer
             private int frameCounter = 0;
             private long start;
             private Bitmap ovl;
+            private Context context;
 
             public MjpegViewThread(ISurfaceHolder surfaceHolder, Context context)
             {
                 mSurfaceHolder = surfaceHolder;
+                this.context = context;
             }
 
             private Rect DestRect(int bmw, int bmh)
@@ -130,7 +133,7 @@ namespace XamarinWifiCarApp.MpegViewer
                 }
                 if (displayMode == MjpegView.SIZE_BEST_FIT)
                 {
-                    float bmasp = (float)bmw / (float)bmh;
+                    var bmasp = (float)bmw / (float)bmh;
                     bmw = dispWidth;
                     bmh = (int)(dispWidth / bmasp);
                     if (bmh > dispHeight)
@@ -148,10 +151,10 @@ namespace XamarinWifiCarApp.MpegViewer
             }
             public void SetSurfaceSize(int width, int height)
             {
-                synchronized(mSurfaceHolder) {
-                    dispWidth = width;
-                    dispHeight = height;
-                }
+                //synchronized(mSurfaceHolder) {
+                dispWidth = width;
+                dispHeight = height;
+                //}
             }
 
             private Bitmap MakeFpsOverlay(Paint p, string text)
@@ -160,20 +163,22 @@ namespace XamarinWifiCarApp.MpegViewer
                 p.GetTextBounds(text, 0, text.Length, b);
                 var bwidth = b.Width() - 2;
                 var bheight = b.Height() - 2;
-                Bitmap bm = Bitmap.CreateBitmap(bwidth, bheight,
+                var bm = Bitmap.CreateBitmap(bwidth, bheight,
                         Bitmap.Config.Argb8888);
                 var c = new Canvas(bm);
-                p.SetColor(overlayBackgroundColor);
+                var obc = System.Drawing.Color.FromArgb(overlayBackgroundColor);
+                p.SetARGB(obc.A, obc.R, obc.G, obc.B);
                 c.DrawRect(0, 0, bwidth, bheight, p);
-                p.setColor(overlayTextColor);
+                var otc = System.Drawing.Color.FromArgb(overlayTextColor);
+                p.SetARGB(otc.A, otc.R, otc.G, otc.B);
                 c.DrawText(text, -b.Left + 1,
                         (bheight / 2) - ((p.Ascent() + p.Descent()) / 2) + 1, p);
                 return bm;
             }
 
-            public void run()
+            public void Run()
             {
-                start = System.currentTimeMillis();
+                start = Convert.ToInt64(DateTime.Now.Subtract(DateTime.Today).TotalMilliseconds);
                 Log.Debug("MjpegView", "playback thread started! time:" + start);
                 var mode = new PorterDuffXfermode(PorterDuff.Mode.DstOver);
                 Bitmap bm;
@@ -191,62 +196,62 @@ namespace XamarinWifiCarApp.MpegViewer
                         {
                             if (false) Log.Debug("MjpegView", "thread run once++++");
                             c = mSurfaceHolder.LockCanvas();
-                            synchronized(mSurfaceHolder) {
-                                try
+                            //synchronized(mSurfaceHolder) {
+                            try
+                            {
+                                if (mIn == null && mInUrl != null)
                                 {
-                                    if (mIn == null && mInUrl != null)
-                                    {
-                                        mIn = MjpegInputStream.Read(mInUrl);
-                                    }
-
-                                    bm = mIn.ReadMjpegFrame();
-
-                                    if (mtakePic)
-                                    {
-                                        Log.Debug("MjpegView", "thread run start to take picture");
-                                        var fName = GenerateFileName();
-                                        Log.Debug("MjpegView", "mtakePic  " + fName);
-                                        int res = SaveBitmapToFile(bm, fName);
-                                        BroardCastResult(res, fName);
-                                        mFileName = fName;
-                                        mtakePic = false;
-                                    }
-                                    destRect = DestRect(mScreenWidth, mScreenHeight);
-                                    c.DrawColor(Color.Black);
-                                    c.DrawBitmap(bm, null, destRect, p);
-                                    if (showFps)
-                                    {
-                                        p.SetXfermode(mode);
-                                        if (ovl != null)
-                                        {
-                                            height = ((ovlPos & 1) == 1)
-                                                ? destRect.Top
-                                                : destRect.Bottom
-                                                  - ovl.Height;
-                                            width = ((ovlPos & 8) == 8)
-                                                ? destRect.Left
-                                                : destRect.Right
-                                                  - ovl.Width;
-                                            c.DrawBitmap(ovl, width, height, null);
-                                        }
-                                        p.SetXfermode(null);
-                                        frameCounter++;
-                                        if ((System.CurrentTimeMillis() - start) >= 1000)
-                                        {
-                                            fps = $"{frameCounter} fps";
-                                            frameCounter = 0;
-                                            start = System.CurrentTimeMillis();
-                                            ovl = MakeFpsOverlay(overlayPaint, fps);
-                                        }
-                                    }
+                                    mIn = MjpegInputStream.Read(mInUrl);
                                 }
-                                catch (Java.Lang.Exception)
+
+                                bm = mIn.ReadMjpegFrame();
+
+                                if (mtakePic)
                                 {
+                                    Log.Debug("MjpegView", "thread run start to take picture");
+                                    var fName = GenerateFileName();
+                                    Log.Debug("MjpegView", "mtakePic  " + fName);
+                                    var res = SaveBitmapToFile(bm, fName);
+                                    BroardCastResult(res, fName);
+                                    mFileName = fName;
+                                    mtakePic = false;
                                 }
-                                catch (System.Exception)
+                                destRect = DestRect(mScreenWidth, mScreenHeight);
+                                c.DrawColor(Color.Black);
+                                c.DrawBitmap(bm, null, destRect, p);
+                                if (showFps)
                                 {
+                                    p.SetXfermode(mode);
+                                    if (ovl != null)
+                                    {
+                                        height = ((ovlPos & 1) == 1)
+                                            ? destRect.Top
+                                            : destRect.Bottom
+                                              - ovl.Height;
+                                        width = ((ovlPos & 8) == 8)
+                                            ? destRect.Left
+                                            : destRect.Right
+                                              - ovl.Width;
+                                        c.DrawBitmap(ovl, width, height, null);
+                                    }
+                                    p.SetXfermode(null);
+                                    frameCounter++;
+                                    if (Convert.ToInt64(DateTime.Now.Subtract(DateTime.Today).TotalMilliseconds) - start >= 1000)
+                                    {
+                                        fps = $"{frameCounter} fps";
+                                        frameCounter = 0;
+                                        start = Convert.ToInt64(DateTime.Now.Subtract(DateTime.Today).TotalMilliseconds);
+                                        ovl = MakeFpsOverlay(overlayPaint, fps);
+                                    }
                                 }
                             }
+                            catch (Java.Lang.Exception)
+                            {
+                            }
+                            catch (System.Exception)
+                            {
+                            }
+                            //}
                         }
                         finally
                         {
@@ -257,7 +262,7 @@ namespace XamarinWifiCarApp.MpegViewer
                 }
             }
         }
-        
+
         public void StartPlayback()
         {
             if (mIn != null || mInUrl != null)
@@ -285,7 +290,7 @@ namespace XamarinWifiCarApp.MpegViewer
         public void StopPlayback()
         {
             mRun = false;
-            bool retry = true;
+            var retry = true;
             while (retry)
             {
                 try
@@ -323,12 +328,12 @@ namespace XamarinWifiCarApp.MpegViewer
             overlayPaint = p;
         }
 
-        public void SetOverlayTextColor(int c)
+        public void SetOverlayTextColor(Color c)
         {
             overlayTextColor = c;
         }
 
-        public void SetOverlayBackgroundColor(int c)
+        public void SetOverlayBackgroundColor(Color c)
         {
             overlayBackgroundColor = c;
         }
@@ -358,77 +363,76 @@ namespace XamarinWifiCarApp.MpegViewer
         private static string GenerateFileName()
         {
             File sdcard;
-            bool sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+            var sdCardExist = Environment.ExternalStorageState.Equals(Environment.MediaMounted);
             if (sdCardExist)
             {
-                sdcard = Environment.getExternalStorageDirectory();//»ñÈ¡¸úÄ¿Â¼ 
+                sdcard = Environment.ExternalStorageDirectory;
             }
             else {
                 return null;
             }
 
-            String save2Dir = sdcard.ToString() + "/" + SAVE_TO_DIR;
-
-            File fSave2Dir = new File(save2Dir);
-            if (!fSave2Dir.exists())
+            var save2Dir = $"{ sdcard }/{ SAVE_TO_DIR }";
+            var fSave2Dir = new File(save2Dir);
+            if (!fSave2Dir.Exists())
             {
-                fSave2Dir.mkdir();
+                fSave2Dir.Mkdir();
             }
-            
-            var save2File = string.Format("{0}/{1}.png", save2Dir, DateTime.Now.ToString("yyyyMMddHHmmss"));
 
+            var save2File = $"{save2Dir}/{DateTime.Now.ToString("yyyyMMddHHmmss")}.png";
             var fSave2File = new File(save2File);
             if (fSave2File.Exists())
             {
-                return save2Dir + "/" + str + System.currentTimeMillis() + ".png";
+                return $"{ save2Dir }/{DateTime.Now.ToString("yyyyMMddHHmmss")}{DateTime.Now.Millisecond}.png";
             }
 
             return save2File;
         }
 
-        private static void BroardCastResult(int res, String fName)
+        private static void BroardCastResult(int res, string fName)
         {
             Log.Debug("MjpegView", "BroardCastResult res: " + res);
-            Intent intent = new Intent(Constant.ACTION_TAKE_PICTURE_DONE);
-            intent.putExtra(Constant.EXTRA_RES, res);
-            intent.putExtra(Constant.EXTRA_PATH, fName);
-            context.sendBroadcast(intent);
+            var intent = new Intent(Constant.ACTION_TAKE_PICTURE_DONE);
+            intent.PutExtra(Constant.EXTRA_RES, res);
+            intent.PutExtra(Constant.EXTRA_PATH, fName);
+            context.SendBroadcast(intent);
         }
 
-        private static int SaveBitmapToFile(Bitmap mBitmap, String bitName)
+        private static int SaveBitmapToFile(Bitmap mBitmap, string bitName)
         {
-            FileOutputStream fOut = null;
+            System.IO.Stream fOut = null;
             Log.Debug("MjpegView", "SaveBitmapToFile enter");
-            if (null == bitName || bitName.length() <= 4)
+            if (null == bitName || bitName.Length <= 4)
             {
                 return Constant.CAM_RES_FAIL_FILE_NAME_ERROR;
             }
 
-            File f = new File(bitName);
+            var f = new File(bitName);
             Log.Debug("MjpegView", "SaveBitmapToFile, fname =" + f);
             try
             {
-                f.createNewFile();
+                f.CreateNewFile();
                 Log.Debug("MjpegView", "SaveBitmapToFile, createNewFile success, f=" + f);
-                fOut = new FileOutputStream(f);
+                //fOut = new FileOutputStream(f);
+                fOut = new FileStream(f.Path, FileMode.CreateNew);
                 Log.Debug("MjpegView", "SaveBitmapToFile, FileOutputStream success, fOut=" + fOut);
             }
-            catch (Exception e)
+            catch (Java.Lang.Exception e)
             {
-                Log.Debug("MjpegView", "exception, err=" + e.getMessage());
+                Log.Debug("MjpegView", "exception, err=" + e.Message);
                 return Constant.CAM_RES_FAIL_FILE_WRITE_ERROR;
             }
 
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            mBitmap.Compress(Bitmap.CompressFormat.Png, 100, fOut);
 
             try
             {
-                fOut.flush();
-                fOut.close();
+                fOut.Flush();
+                fOut.Close();
             }
-            catch (Exception e)
+            catch (Java.Lang.Exception e)
             {
-                e.printStackTrace();
+                e.PrintStackTrace();
                 return Constant.CAM_RES_FAIL_BITMAP_ERROR;
             }
 
