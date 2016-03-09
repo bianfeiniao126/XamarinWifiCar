@@ -3,58 +3,104 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <VideoView
+    <com.camera.simplemjpeg.MjpegView
+        android:id="@+id/mjpegView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/videoView1" />
+        android:layout_weight="1" />
+    <ImageButton
+        android:src="@drawable/sym_light_off"
+        android:layout_width="40.0dp"
+        android:layout_height="40.0dp"
+        android:id="@+id/imageButtonLeds"
+        android:layout_marginLeft="5.0dp"
+        android:scaleType="center"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25.0dp"
+        android:background="@null" />
+    <ImageButton
+        android:src="@drawable/sym_setting"
+        android:layout_width="40.0dp"
+        android:layout_height="40.0dp"
+        android:id="@+id/imageButtonSetting"
+        android:layout_marginLeft="5.0dp"
+        android:scaleType="center"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70.0dp"
+        android:background="@null" />
     <ImageButton
         android:src="@drawable/sym_forward"
         android:layout_width="40.0dp"
         android:layout_height="40.0dp"
         android:id="@+id/imageButtonForward"
-        android:layout_marginTop="-120.0dp"
-        android:layout_below="@id/videoView1"
+        android:layout_marginBottom="80.0dp"
         android:layout_marginLeft="45.0dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="center"
+        android:layout_alignParentBottom="true"
+        android:background="@null" />
     <ImageButton
         android:src="@drawable/sym_backward"
         android:layout_width="40.0dp"
         android:layout_height="40.0dp"
         android:id="@+id/imageButtonBackward"
-        android:layout_marginTop="-40.0dp"
-        android:layout_below="@id/videoView1"
+        android:layout_marginBottom="0.0dp"
         android:layout_marginLeft="45.0dp"
-        android:scaleType="centerCrop" />
+        android:layout_alignParentBottom="true"
+        android:scaleType="center"
+        android:background="@null" />
     <ImageButton
         android:src="@drawable/sym_left"
         android:layout_width="40.0dp"
         android:layout_height="40.0dp"
         android:id="@+id/imageButtonLeft"
-        android:layout_marginTop="-80.0dp"
-        android:layout_below="@id/videoView1"
+        android:layout_marginBottom="40.0dp"
         android:layout_marginLeft="5.0dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="center"
+        android:layout_alignParentBottom="true"
+        android:background="@null" />
     <ImageButton
         android:src="@drawable/sym_right"
         android:layout_width="40.0dp"
         android:layout_height="40.0dp"
         android:id="@+id/imageButtonRight"
-        android:layout_marginTop="-80.0dp"
-        android:layout_below="@id/videoView1"
+        android:layout_marginBottom="40.0dp"
         android:layout_marginLeft="85.0dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="center"
+        android:layout_alignParentBottom="true"
+        android:background="@null" />
     <ImageButton
         android:src="@drawable/sym_stop"
         android:layout_width="40.0dp"
         android:layout_height="40.0dp"
         android:id="@+id/imageButtonStop"
-        android:layout_marginTop="-80.0dp"
-        android:layout_below="@id/videoView1"
+        android:layout_marginBottom="40.0dp"
         android:layout_marginLeft="45.0dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="center"
+        android:layout_alignParentBottom="true"
+        android:background="@null" />
     <TextView
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textMensaje" />
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/horizontalSeekBar"
+        android:layout_marginLeft="140.0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="45.0dp" />
+    <XamarinWifiCarApp.Custom.VerticalSeekBar
+        android:layout_width="39.0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/verticalSeekBar"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="40.0dp" />
+    <Button
+        android:layout_width="40.0dp"
+        android:layout_height="40.0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/btnCentrarCamara"
+        android:background="@null" />
 </RelativeLayout>

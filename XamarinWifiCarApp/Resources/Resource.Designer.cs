@@ -28,6 +28,22 @@ namespace XamarinWifiCarApp
 		{
 		}
 		
+		public partial class Array
+		{
+			
+			// aapt resource value: 0x7f060000
+			public const int gear_steps = 2131099648;
+			
+			static Array()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Array()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -45,40 +61,61 @@ namespace XamarinWifiCarApp
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int coche_ico = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int monoandroidsplash = 2130837505;
+			public const int Icon = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int sym_backward = 2130837506;
+			public const int monoandroidsplash = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int sym_backward_1 = 2130837507;
+			public const int sym_backward = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int sym_forward = 2130837508;
+			public const int sym_backward_1 = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int sym_forward_1 = 2130837509;
+			public const int sym_forward = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int sym_left = 2130837510;
+			public const int sym_forward_1 = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int sym_left_1 = 2130837511;
+			public const int sym_indicator = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int sym_right = 2130837512;
+			public const int sym_indicator1 = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int sym_right_1 = 2130837513;
+			public const int sym_left = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int sym_stop = 2130837514;
+			public const int sym_left_1 = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int sym_stop_1 = 2130837515;
+			public const int sym_light = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int sym_light_off = 2130837516;
+			
+			// aapt resource value: 0x7f02000d
+			public const int sym_right = 2130837517;
+			
+			// aapt resource value: 0x7f02000e
+			public const int sym_right_1 = 2130837518;
+			
+			// aapt resource value: 0x7f02000f
+			public const int sym_setting = 2130837519;
+			
+			// aapt resource value: 0x7f020010
+			public const int sym_stop = 2130837520;
+			
+			// aapt resource value: 0x7f020011
+			public const int sym_stop_1 = 2130837521;
+			
+			// aapt resource value: 0x7f020012
+			public const int take_pic = 2130837522;
 			
 			static Drawable()
 			{
@@ -93,26 +130,41 @@ namespace XamarinWifiCarApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060002
-			public const int imageButtonBackward = 2131099650;
+			// aapt resource value: 0x7f08000b
+			public const int btnCentrarCamara = 2131230731;
 			
-			// aapt resource value: 0x7f060001
-			public const int imageButtonForward = 2131099649;
+			// aapt resource value: 0x7f080009
+			public const int horizontalSeekBar = 2131230729;
 			
-			// aapt resource value: 0x7f060003
-			public const int imageButtonLeft = 2131099651;
+			// aapt resource value: 0x7f080004
+			public const int imageButtonBackward = 2131230724;
 			
-			// aapt resource value: 0x7f060004
-			public const int imageButtonRight = 2131099652;
+			// aapt resource value: 0x7f080003
+			public const int imageButtonForward = 2131230723;
 			
-			// aapt resource value: 0x7f060005
-			public const int imageButtonStop = 2131099653;
+			// aapt resource value: 0x7f080001
+			public const int imageButtonLeds = 2131230721;
 			
-			// aapt resource value: 0x7f060006
-			public const int textMensaje = 2131099654;
+			// aapt resource value: 0x7f080005
+			public const int imageButtonLeft = 2131230725;
 			
-			// aapt resource value: 0x7f060000
-			public const int videoView1 = 2131099648;
+			// aapt resource value: 0x7f080006
+			public const int imageButtonRight = 2131230726;
+			
+			// aapt resource value: 0x7f080002
+			public const int imageButtonSetting = 2131230722;
+			
+			// aapt resource value: 0x7f080007
+			public const int imageButtonStop = 2131230727;
+			
+			// aapt resource value: 0x7f080000
+			public const int mjpegView = 2131230720;
+			
+			// aapt resource value: 0x7f080008
+			public const int textMensaje = 2131230728;
+			
+			// aapt resource value: 0x7f08000a
+			public const int verticalSeekBar = 2131230730;
 			
 			static Id()
 			{
@@ -130,6 +182,9 @@ namespace XamarinWifiCarApp
 			// aapt resource value: 0x7f030000
 			public const int Main = 2130903040;
 			
+			// aapt resource value: 0x7f030001
+			public const int Preferences = 2130903041;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -143,14 +198,11 @@ namespace XamarinWifiCarApp
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
+			// aapt resource value: 0x7f050000
+			public const int ApplicationName = 2131034112;
 			
-			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
-			
-			// aapt resource value: 0x7f040002
-			public const int muestraElTexto = 2130968578;
+			// aapt resource value: 0x7f050001
+			public const int settingsActivityTitle = 2131034113;
 			
 			static String()
 			{
@@ -165,8 +217,8 @@ namespace XamarinWifiCarApp
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int Mono_Android_Theme_Splash = 2131034112;
+			// aapt resource value: 0x7f070000
+			public const int Mono_Android_Theme_Splash = 2131165184;
 			
 			static Style()
 			{
@@ -174,6 +226,22 @@ namespace XamarinWifiCarApp
 			}
 			
 			private Style()
+			{
+			}
+		}
+		
+		public partial class Xml
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int Preferences = 2130968576;
+			
+			static Xml()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Xml()
 			{
 			}
 		}

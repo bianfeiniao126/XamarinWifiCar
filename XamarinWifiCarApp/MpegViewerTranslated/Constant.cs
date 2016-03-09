@@ -1,4 +1,4 @@
-namespace XamarinWifiCarApp.MpegViewer
+namespace XamarinWifiCarApp.MpegViewerTranslated
 {
     public class Constant
     {

@@ -18,7 +18,7 @@ using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 using String = System.String;
 
-namespace XamarinWifiCarApp.MpegViewer
+namespace XamarinWifiCarApp.MpegViewerTranslated
 {
     public class MjpegView : SurfaceView, ISurfaceHolderCallback
     {
@@ -93,7 +93,7 @@ namespace XamarinWifiCarApp.MpegViewer
 
         public void SurfaceChanged(ISurfaceHolder holder, Format format, int width, int height)
         {
-            //thread.setSurfaceSize(w, h);
+            thread.SetSurfaceSize(width, height);
         }
 
         public void SurfaceCreated(ISurfaceHolder holder)

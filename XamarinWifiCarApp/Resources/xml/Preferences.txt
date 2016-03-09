@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Preferencias"
+    android:key="pref_screen">
+  <PreferenceCategory android:title="Configuración del servidor" android:key="pref_key_comm_settings">
+    <EditTextPreference
+        android:dialogTitle="IP:Puerto"
+        android:defaultValue="192.168.1.1:2001"
+        android:title="IP:Puerto"
+        android:key="pref_key_router_url"/>
+    <EditTextPreference
+        android:defaultValue="http://192.168.1.1:8080/?action=stream"
+        android:title="Dirección del Video"
+        android:key="pref_key_camera_url"/>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Configuración de Motor"
+      android:key="pref_key_motor">
+    <EditTextPreference
+        android:defaultValue="90"
+        android:title="Potencia de los motores (%)"
+        android:key="pref_key_potencia"/>
+    <EditTextPreference
+        android:defaultValue="90"
+        android:title="% Corrección Motor Izquierdo"
+        android:key= "pref_key_potencia_izquierdo"/>
+    <EditTextPreference
+        android:defaultValue="100"
+        android:title="% Corrección Motor Derecho"
+        android:key="pref_key_potencia_derecho"/>
+    <EditTextPreference
+        android:defaultValue="70"
+        android:title="Potencia en Giro (%)"
+        android:key= "pref_key_potencia_giro"/>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Configuración Servos Cámara"
+      android:key="pref_key_gear">
+    <ListPreference
+        android:key="pref_key_gear_step"
+        android:entries="@array/gear_steps"
+        android:summary="Selecciona la cantidad de grados necesaria para mover los servos."
+        android:title="Step servos"
+        android:entryValues="@array/gear_steps"
+        android:defaultValue="2"/>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Configuración de los Faros"
+      android:key="pref_key_len_settings">
+    <EditTextPreference
+        android:defaultValue="n"
+        android:title="Encender faros"
+        android:key="pref_key_len_on"/>
+    <EditTextPreference
+        android:defaultValue="m"
+        android:title="Apagar faros"
+        android:key="pref_key_len_off"/>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Configuración de Movimiento"
+      android:key="pref_key_mov_settings">
+    <EditTextPreference
+        android:defaultValue="w"
+        android:title="Avanzar"
+        android:key="pref_key_avanzar"/>
+    <EditTextPreference
+        android:defaultValue="s"
+        android:title="Retroceder"
+        android:key= "pref_key_retroceder"/>
+    <EditTextPreference
+        android:defaultValue="a"
+        android:title="Girar Izquierda"
+        android:key="pref_key_izquierda"/>
+    <EditTextPreference
+        android:defaultValue="d"
+        android:title="Girar Derecha"
+        android:key= "pref_key_derecha"/>
+    <EditTextPreference
+        android:defaultValue="0"
+        android:title="Parar"
+        android:key= "pref_key_parar"/>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Configuración de Comandos Parametrizados"
+      android:key="pref_key_comandos_parametrizados">
+    <EditTextPreference
+        android:defaultValue="."
+        android:title="Comenzar Comando Parametrizado"
+        android:key="pref_key_command_start"/>
+    <EditTextPreference
+        android:defaultValue="v"
+        android:title="Establecer Servo Vertical"
+        android:key= "pref_key_command_servo_vertical"/>
+    <EditTextPreference
+        android:defaultValue="h"
+        android:title="Establecer Servo Horizontal"
+        android:key="pref_key_command_servo_horizontal"/>
+    <EditTextPreference
+        android:defaultValue="p"
+        android:title="Establecer Potencia"
+        android:key= "pref_key_command_potencia"/>
+    <EditTextPreference
+        android:defaultValue="i"
+        android:title="Establecer Corrección Motor Izquierdo"
+        android:key= "pref_key_command_potencia_izquierdo"/>
+    <EditTextPreference
+        android:defaultValue="d"
+        android:title="Establecer Corrección Motor Derecho"
+        android:key= "pref_key_command_potencia_derecho"/>
+    <EditTextPreference
+        android:defaultValue="g"
+        android:title="Establecer Potencia Giro"
+        android:key= "pref_key_command_potencia_giro"/>
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="Configuracion del modo Depuración"
+      android:key="pref_key_test_settings">
+    <CheckBoxPreference android:title="El modo de depuración está activado"
+        android:key="pref_key_test_enabled"/>
+    <EditTextPreference android:title="IP:Puerto (modo depuración)"
+        android:defaultValue="192.168.2.1:2001"
+        android:key="pref_key_router_url_test"/>
+    <EditTextPreference android:title="Dirección del Video (modo depuración)"
+        android:key="pref_key_camera_url_test"/>
+  </PreferenceCategory>
+</PreferenceScreen>

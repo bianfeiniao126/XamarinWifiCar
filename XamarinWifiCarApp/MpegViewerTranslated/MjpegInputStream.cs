@@ -15,7 +15,7 @@ using Java.IO;
 using Java.Lang;
 using Org.Apache.Http.Client;
 
-namespace XamarinWifiCarApp.MpegViewer
+namespace XamarinWifiCarApp.MpegViewerTranslated
 {
     public class MjpegInputStream : DataInputStream
     {
